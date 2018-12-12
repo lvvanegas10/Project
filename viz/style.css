@@ -1,0 +1,22 @@
+.center{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+}
+
+.title{
+    margin: 20px;
+    display: block;
+    justify-content: center;
+    text-align: center;
+}
+
+#svg_draw{
+    outline: 3px solid black;
+}
+
+li{
+    list-style:none;
+    text-decoration: none;
+}

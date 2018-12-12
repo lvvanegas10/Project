@@ -1,0 +1,86 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="style.css">
+  <script>   
+
+    var openFile = function (event) {
+      var input = event.target;
+
+      var reader = new FileReader();
+
+      const delay = ms => new Promise(res => setTimeout(res, ms));
+
+      var drawFile = async (arr) => {
+        var element = document.getElementById('svg_draw');
+        element.innerHTML = '';
+
+        var ul = document.getElementById("times");
+        ul.innerHTML = ''
+         
+        var scale = 2;
+        var i = 0;
+        for (text in arr) {
+          text = arr[text]
+          text_arr = text.split(' ')
+          if (text_arr.length === 2) {
+            if(text_arr[1] >= 500 || text_arr[0] >= 1000) scale = 1
+            if(text_arr[1] === 1000 || text_arr[0] ==1000) scale = 0.5
+            if(text_arr[1] > 1000 || text_arr[0] > 1000) scale = 0.2
+            document.getElementById('svg_draw').setAttribute("height", text_arr[1] * scale);
+            document.getElementById('svg_draw').setAttribute("width", text_arr[0] * scale);  
+          }
+          else if (text !== '' && i===4) {
+            await delay(100);
+            newLine( text_arr[0], text_arr[1], text_arr[2],text_arr[3], scale);          
+          }
+          else if( text !== ''){
+            i = i + 1            
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(text));
+            ul.appendChild(li);
+          }
+        }
+      }
+
+      var newLine = function (a, b, c, d, scale) {
+        var newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        newLine.setAttribute('id', 'line' + text);
+        newLine.setAttribute('x1', a * scale);
+        newLine.setAttribute('y1', b * scale);
+        newLine.setAttribute('x2', c * scale);
+        newLine.setAttribute('y2', d * scale);
+        newLine.setAttribute("stroke", "black")
+        document.getElementById('svg_draw').append(newLine);
+      }
+
+      reader.onload = function () {
+        var text = reader.result;
+        text = text.replace(/\[/g, '');
+        text = text.replace(/\]/g, '');
+        text = text.replace(/,/g, '');
+
+        var arr = text.split('\n');
+        drawFile(text.split('\n'))
+      };
+      reader.readAsText(input.files[0]);
+    };        
+  </script>
+</head>
+
+<body>
+  <div class="title">
+      <h1>Flujo en redes</h1>
+      <input type='file' accept='text/plain' onchange='openFile(event)'><br>
+      <img id='output'>
+      <ul id="times"></ul>
+  </div>  
+
+  <div class="center">
+      <svg id="svg_draw">    
+          Sorry, your browser does not support inline SVG.
+      </svg>
+  </div>  
+</body>
+
+</html>

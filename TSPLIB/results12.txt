@@ -1,0 +1,38 @@
+NAME : results12.283895.tour
+COMMENT : Length = 283895
+COMMENT : Found by LKH [Keld Helsgaun] Tue Dec 11 20:29:19 2018
+TYPE : TOUR
+DIMENSION : 30
+TOUR_SECTION
+1
+7
+24
+8
+12
+26
+11
+9
+25
+10
+17
+29
+18
+4
+22
+3
+15
+28
+16
+5
+23
+6
+20
+30
+19
+13
+27
+14
+2
+21
+-1
+EOF

@@ -1,0 +1,4 @@
+node_modules/
+*.pyc 
+package-lock.json
+LKH-2.0.9/
