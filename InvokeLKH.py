@@ -21,7 +21,7 @@ import math
 import numpy as np
 from DataLoader import DataLoader
 import time
-
+from Times import Times
 # Change with the Cost Matrix of your problem or 
 # consider using it as an argument
 fname_tsp = "test"
@@ -120,7 +120,7 @@ def is_number(s):
     except (TypeError, ValueError):
         pass
 
-def processData(num, node_names, d, curr_time):	
+def processData(num, node_names, d, curr_time, t):	
 	nodes = []
 	time = 0
 	file_read = open("./TSPLIB/results"+str(num)+".txt", "r")
@@ -137,30 +137,33 @@ def processData(num, node_names, d, curr_time):
 	if(nodes[len(nodes)-1].endswith('c')):
 		del nodes[len(nodes)-1]
 	nodes.append(temp)
-	d.finalRoute(nodes, num, time, curr_time)
+	d.finalRoute(nodes, num, time, curr_time, t)
 	file_read.close()
 
-def main():
-	times = []
-	for i in range(1, 18):
-		start_time = time.time()
-		d = DataLoader(i)
-		d_names = d.get_nodes_names()
-		CostMatrix = d.get_final_matrix()
+def main():	
+	for j in range(0, 3):
+		t = Times()
+		times = []
+		for i in range(1, 18):
+			start_time = time.time()
+			d = DataLoader(i)
+			d_names = d.get_nodes_names()
+			CostMatrix = d.get_final_matrix()
 
-		fname_tsp = "results"+str(i)
-		[fileID1,fileID2] = writeTSPLIBfile_FE(fname_tsp,CostMatrix,user_comment)
-		run_LKHsolver_cmd(fname_tsp)
-		copy_toTSPLIBdir_cmd(fname_tsp)
-		rm_solution_file_cmd(fname_tsp)
-		curr_time = time.time() - start_time
-		times.append(curr_time)
-		processData(i, d.get_nodes_names(), d, curr_time)
+			fname_tsp = "results"+str(i)
+			[fileID1,fileID2] = writeTSPLIBfile_FE(fname_tsp,CostMatrix,user_comment)
+			run_LKHsolver_cmd(fname_tsp)
+			copy_toTSPLIBdir_cmd(fname_tsp)
+			rm_solution_file_cmd(fname_tsp)
+			curr_time = time.time() - start_time
+			times.append(curr_time)
+			processData(i, d.get_nodes_names(), d, curr_time, t)
 
-	file = open("./times.txt","w")  
-	for i in range(0, len(times)):
-		file.write('Excecution seconds '+ str(i+1) + ': ' +str(times[i]) +"\n") 
-	file.close()
+		file = open("./times"+ str(j) +".txt","w")
+		file.write("Instance \t Excecution \t Cut time \t Air time \t Total cut \t Total \n")  
+		for i in range(0, len(times)):
+			file.write(str(i+1) + '\t' + str(times[i]) + '\t' + str(t.get_cut()[i])+  '\t' + str(t.get_air()[i])+  '\t' + str(t.get_cut()[i] + t.get_air()[i]) + '\t'+ str(t.get_cut()[i] + t.get_air()[i] + t.get_excecution()[i])  +"\n") 
+		file.close()
 
 
 if __name__ == "__main__":

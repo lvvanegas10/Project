@@ -1,6 +1,6 @@
 NAME : results16.2075272.tour
 COMMENT : Length = 2075272
-COMMENT : Found by LKH [Keld Helsgaun] Tue Dec 11 20:29:29 2018
+COMMENT : Found by LKH [Keld Helsgaun] Tue Dec 11 21:24:53 2018
 TYPE : TOUR
 DIMENSION : 369
 TOUR_SECTION

@@ -1,4 +1,4 @@
-Excecution time = 0.0263428688049
+Excecution time = 0.0221121311188
 Air time = 2.47699
 Cut time = 3.984
 Total cut time = 6.46099

@@ -124,7 +124,7 @@ class DataLoader:
             else:
                 return(dis*100+40000)
     
-    def finalRoute(self, route, num, time, ex_time):    
+    def finalRoute(self, route, num, time, ex_time, t):    
         points_route = []        
         file = open("./resp/resp"+ str(num) +".txt","w") 
         file.write("Excecution time = " + str(ex_time) + "\n") 
@@ -132,7 +132,7 @@ class DataLoader:
         file.write("Cut time = " + str(float(self.get_cut_time())/100000) + "\n")
         file.write("Total cut time = " + str((float(self.get_cut_time()) + float(time))/100000) + "\n")
         file.write('['+ str(self.size_x) +  ', '+ str(self.size_y)+']' + '\n') 
-
+        t.addTimes(ex_time, float(self.get_cut_time())/100000 ,float(time)/100000)
         for i in range(0, len(route), 3):
             if(i != len(route)-1):
                 pos_1 = self.nodes_pos[route[i]]
